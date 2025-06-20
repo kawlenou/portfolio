@@ -25,7 +25,7 @@ export default function TimeSlotSelector() {
             <button
               key={index}
               onClick={() => setSelectedIndex(index)}
-              className={`flex items-center justify-between px-4 py-3 rounded-xl border text-lg font-medium transition
+              className={`flex items-center justify-between px-4 py-3 rounded-xl border text-lg font-medium transition space-x-3
                 ${
                   isSelected
                     ? "bg-blue-600 text-white"
@@ -33,10 +33,10 @@ export default function TimeSlotSelector() {
                 }`}
             >
               <span>{slot.start}</span>
-              <div className="flex items-center gap-1">
-                <span className={`w-2 h-2 rounded-full ${isSelected ? 'bg-white' : 'bg-blue-900'}`} />
+              <div className="flex items-center">
+                <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-blue-900'}`} />
                 <span className="w-12 h-0.5 bg-gray-300" />
-                <span className={`w-2 h-2 rounded-full ${isSelected ? 'bg-white' : 'bg-blue-900'}`} />
+                <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-blue-900'}`} />
               </div>
               <span>{slot.end}</span>
             </button>

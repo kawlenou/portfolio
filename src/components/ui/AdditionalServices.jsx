@@ -4,9 +4,9 @@ const AdditionalServices = () => {
   const [selectedServices, setSelectedServices] = useState([]);
 
   const services = [
-    { id: 'makeup1', name: 'Maquillage', price: 10, duration: 'heure' },
-    { id: 'makeup2', name: 'Maquillage', price: 10, duration: 'heure' },
-    { id: 'makeup3', name: 'Maquillage', price: 10, duration: 'heure' },
+    { id: 'makeup1', name: 'Ingénieur son', price: 10, duration: 'heure' },
+    { id: 'makeup2', name: 'Enregistement audio', price: 10, duration: 'heure' },
+    { id: 'makeup3', name: 'Mixage', price: 10, duration: 'heure' },
     { id: 'makeup4', name: 'Maquillage', price: 10, duration: 'heure' },
   ];
 
@@ -31,18 +31,25 @@ const AdditionalServices = () => {
         {services.map((service) => (
           <div 
             key={service.id}
-            className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors rounded-full ${
+            className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors rounded-full border-secondary bg-secondary ${
               selectedServices.includes(service.id) 
-                ? 'border-blue-500 bg-blue-50' 
-                : 'border-gray-200 hover:border-blue-300'
+                ? 'border-blue-500 ' 
+                : 'hover:border-blue-300'
             }`}
             onClick={() => toggleService(service.id)}
           >
-            <div className="flex items-center justify-center h-5 w-5 mr-3">
-              <div className={`rounded h-4 w-4 border-2 flex items-center justify-center ${
+            
+            <div className="flex-grow">
+              <span className="font-medium text-primary">{service.name}</span>
+            </div>
+            <div className="text-gray-600">
+              ${service.price} /{service.duration}
+            </div>
+            <div className="flex items-center justify-center h-5 w-5 ml-3">
+              <div className={`rounded-full h-5 w-5 border-2 flex items-center justify-center ${
                 selectedServices.includes(service.id)
                   ? 'border-blue-500 bg-blue-500 text-white'
-                  : 'border-gray-400'
+                  : 'border-primary'
               }`}>
                 {selectedServices.includes(service.id) && (
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,12 +57,6 @@ const AdditionalServices = () => {
                   </svg>
                 )}
               </div>
-            </div>
-            <div className="flex-grow">
-              <span className="font-medium text-gray-800">{service.name}</span>
-            </div>
-            <div className="text-gray-600">
-              ${service.price} /{service.duration}
             </div>
           </div>
         ))}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Button({ children, variant = 'primary', ...props }) {
-  const base = 'px-4 py-2 rounded-lg font-semibold transition-colors duration-200';
+  const base = 'px-4 py-2 rounded-lg transition-colors duration-200';
 
   const variants = {
     primary: 'bg-primary text-white hover:bg-blue-700',
