@@ -31,7 +31,7 @@ const AdditionalServices = () => {
         {services.map((service) => (
           <div 
             key={service.id}
-            className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors rounded-full border-secondary bg-secondary ${
+            className={`flex items-center p-3 border cursor-pointer transition-colors rounded-full border-secondary bg-secondary ${
               selectedServices.includes(service.id) 
                 ? 'border-blue-500 ' 
                 : 'hover:border-blue-300'
