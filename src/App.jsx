@@ -1,69 +1,71 @@
-import { useState } from 'react'
-import Button from './components/ui/Button'
-import Input from './components/ui/Input'
-import Calendar from './components/ui/Calendar'
-import TimeSlotSelector from './components/ui/TimeSlotSelector'
-import CircleButton from './components/ui/CircleButton'
-import { GoArrowLeft, GoArrowRight } from "react-icons/go"
-import AdditionalServices from './components/ui/AdditionalServices'
+import { Route, Routes } from 'react-router-dom';
+import LoginWithGoogle from './pages/auth/LoginWithGoogle';
+import LoginWithMail from './pages/auth/LoginWithMail';
+import OtpVerify from './pages/auth/OtpVerify';
+import Home from './pages/Home';
+import Booking from './pages/Booking';
+import BookingCalendar from './pages/BookingCalendar';
+import RouteProteger from './Routes/index';
+
+
 
 function App() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-  });
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
   return (
-    <div className='bg-white p-6'>
-      <div className='bg-white p-6 flex justify-center'>
-
-        {/* Calendar + TimeSlotSelector*/}
-        <Calendar />
-        <TimeSlotSelector />
-
-
-        {/* Boutons cercles */}
-        <div>
-          <div className="flex justify-center gap-4 p-4">
-            <CircleButton icon={GoArrowLeft} onClick={() => console.log('Left clicked')} />
-            <CircleButton icon={GoArrowRight} onClick={() => console.log('Right clicked')} />
-          </div>
-          <Button>Reservez maintenant</Button>
-        </div>
-
-        {/* Additional services */}
-        <div className="flex justify-center p-4">
-          <AdditionalServices />
-        </div>
-
-      </div>
-
-      <form className="max-w-md mx-auto p-6 rounded shadow">
-        <Input
-          label="Nom"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
-        <Input
-          label="Email"
-          name="email"
-          type="email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <Button>Envoyer</Button>
-      </form>
-
-
-    </div>
-  )
+    <Routes>
+      {/* Routes publiques */}
+      <Route path="/login-with-google" element={<LoginWithGoogle />} />
+      <Route path="/login-with-mail" element={<LoginWithMail />} />
+      <Route path="/opt-verify" element={<OtpVerify />} />
+      
+      <Route
+        path="/"
+        element={
+          <RouteProteger>
+            <Home />
+          </RouteProteger>
+        }
+      />
+      <Route
+        path="/booking"
+        element={
+          <RouteProteger>
+            <Booking />
+          </RouteProteger>
+        }
+      />
+      
+      <Route
+        path="/booking-calendar"
+        element={
+          <RouteProteger>
+            <BookingCalendar />
+          </RouteProteger>
+        }
+      />
+      
+      {/* <Route
+        path="/profil"
+        element={
+          <RouteProteger>
+            <Profil />
+          </RouteProteger>
+        }
+      />
+       */}
+      {/* Route admin avec vérification de rôle */}
+      {/* <Route
+        path="/admin"
+        element={
+          <RouteProteger rolesRequises={['admin']}>
+            <EspaceAdmin />
+          </RouteProteger>
+        }
+      /> */}
+      
+      {/* Route 404 */}
+      {/* <Route path="*" element={<NotFound />} /> */}
+    </Routes>
+  );
 }
 
-export default App
+export default App;

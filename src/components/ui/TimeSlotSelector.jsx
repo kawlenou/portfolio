@@ -1,48 +1,34 @@
-import { useState } from "react";
-
-const slots = [
-  { start: "08:00", end: "09:00" },
-  { start: "10:00", end: "11:00" },
-  { start: "12:00", end: "13:00" },
-  { start: "14:00", end: "15:00" },
-  { start: "16:00", end: "17:00" },
-  { start: "18:00", end: "19:00" },
-];
-
-export default function TimeSlotSelector() {
-  const [selectedIndex, setSelectedIndex] = useState(null);
-
+export default function TimeSlotSelector({ slots = [], selectedIndex, onSelect }) {
   return (
-    <div className="max-w-sm mx-auto font-sans p-4">
-      <h2 className="text-xl font-bold mb-1">Select a Time</h2>
-      <p className="text-sm text-gray-500 mb-4">Monday, July 25</p>
-
-      <div className="flex flex-col gap-3">
-        {slots.map((slot, index) => {
+    <div className="flex flex-col gap-3">
+      {slots.length === 0 ? (
+        <p className="text-sm text-gray-500">Aucun créneau disponible pour cette date.</p>
+      ) : (
+        slots.map((slot, index) => {
           const isSelected = selectedIndex === index;
 
           return (
             <button
-              key={index}
-              onClick={() => setSelectedIndex(index)}
+              key={slot.id || index}
+              onClick={() => onSelect(index)}
               className={`flex items-center justify-between px-4 py-3 rounded-xl border text-lg font-medium transition space-x-3
                 ${
                   isSelected
-                    ? "bg-blue-600 text-white"
-                    : "border-blue-200 text-gray-800 hover:bg-blue-50"
+                    ? "bg-primary text-white"
+                    : "border-primary text-gray-800 hover:bg-blue-50"
                 }`}
             >
-              <span>{slot.start}</span>
+              <span>{slot.start_time || slot.start}</span>
               <div className="flex items-center">
-                <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-blue-900'}`} />
+                <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-primary'}`} />
                 <span className="w-12 h-0.5 bg-gray-300" />
-                <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-blue-900'}`} />
+                <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-primary'}`} />
               </div>
-              <span>{slot.end}</span>
+              <span>{slot.end_time || slot.end}</span>
             </button>
           );
-        })}
-      </div>
+        })
+      )}
     </div>
   );
 }
