@@ -6,7 +6,9 @@ import Home from './pages/Home';
 import Booking from './pages/Booking';
 import BookingCalendar from './pages/BookingCalendar';
 import RouteProteger from './Routes/index';
-
+import Register from './pages/auth/Register';
+import Dashboard from './pages/Dashboard'
+import BookingRecap from './pages/BookingRecap';
 
 
 function App() {
@@ -15,7 +17,9 @@ function App() {
       {/* Routes publiques */}
       <Route path="/login-with-google" element={<LoginWithGoogle />} />
       <Route path="/login-with-mail" element={<LoginWithMail />} />
-      <Route path="/opt-verify" element={<OtpVerify />} />
+      <Route path="/register-with-mail" element={<Register />} />
+      <Route path="/otp-verify" element={<OtpVerify />} />
+      <Route path="/dashboard" element={<Dashboard />} />
       
       <Route
         path="/"
@@ -39,6 +43,15 @@ function App() {
         element={
           <RouteProteger>
             <BookingCalendar />
+          </RouteProteger>
+        }
+      />
+
+      <Route
+        path="/booking-recap"
+        element={
+          <RouteProteger>
+            <BookingRecap />
           </RouteProteger>
         }
       />

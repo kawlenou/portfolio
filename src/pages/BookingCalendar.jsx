@@ -1,17 +1,28 @@
 import { useEffect, useState } from 'react';
 import Calendar from '../components/ui/Calendar';
 import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
 import TimeSlotSelector from '../components/ui/TimeSlotSelector';
 import { motion } from 'framer-motion';
 import { getAvailableTimeSlots } from '../services';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function BookingCalendar() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [slots, setSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
-  const [duration, setDuration] = useState(1); // durée choisie (1h, 2h ou 3h)
+  const [message, setMessage] = useState('');
+  const [heure_id, setHeureId] = useState(1); 
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const {
+    service,
+    selectedPackage,
+    selectedAdditionalServices,
+    total
+  } = location.state || {};
 
   const handleDateSelect = (date) => {
     setSelectedDate(date);
@@ -22,35 +33,57 @@ export default function BookingCalendar() {
     setSelectedSlot(slotIndex);
   };
 
-  const handlePayment = () => {
-    if (selectedDate && selectedSlot !== null) {
-      const formattedDate = format(selectedDate, "EEEE d MMMM yyyy", { locale: fr });
-      const slot = slots[selectedSlot];
-      alert(`Réservation confirmée pour le ${formattedDate} entre ${slot.start_time} et ${slot.end_time}`);
-    } else {
-      alert("Veuillez sélectionner une date et un créneau horaire");
-    }
-  };
+  const handleReservation = () => {
+  if (selectedDate && selectedSlot !== null) {
+    const slot = slots[selectedSlot];
+    const reservation = {
+      service,
+      selectedPackage,
+      selectedAdditionalServices,
+      total,
+      date: format(selectedDate, 'yyyy-MM-dd'),
+      heure: {
+        debut: slot.debut,
+        fin: slot.fin
+      }
+    };
 
-  // 🔁 Chargement des créneaux disponibles quand la date change
+    navigate('/booking-recap', { state: reservation });
+  } else {
+    alert("Veuillez sélectionner une date et un créneau horaire");
+  }
+};
+
+
   useEffect(() => {
+    if (!service || !selectedPackage) {
+    navigate('/booking'); 
+  }
+
     const loadSlots = async () => {
       if (!selectedDate) return;
 
       setLoadingSlots(true);
       try {
         const dateString = format(selectedDate, 'yyyy-MM-dd');
-        const data = await getAvailableTimeSlots(dateString, duration);
-        setSlots(data);
+        const data = await getAvailableTimeSlots(dateString, heure_id);
+        setMessage(data.message);
+        setSlots(data.disponibilites);
       } catch (err) {
         setSlots([]);
       } finally {
         setLoadingSlots(false);
       }
+
+      
     };
 
     loadSlots();
-  }, [selectedDate, duration]);
+
+    
+  }, [selectedDate, heure_id, service, selectedPackage]);
+
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
@@ -84,19 +117,6 @@ export default function BookingCalendar() {
               <div className="w-1 h-6 rounded-full bg-[#0b1743]"></div>
               <p className="text-sm text-gray-500">Sélectionnez le créneau horaire qui vous convient.</p>
             </div>
-            {/* Choix de durée */}
-            <div className="mb-4">
-              <label className="text-sm font-semibold text-[#0b1743]">Durée souhaitée :</label>
-              <select
-                value={duration}
-                onChange={(e) => setDuration(Number(e.target.value))}
-                className="mt-1 w-full p-2 border rounded-md text-sm"
-              >
-                <option value={1}>1 heure</option>
-                <option value={2}>2 heures</option>
-                <option value={3}>3 heures</option>
-              </select>
-            </div>
           </div>
 
           {loadingSlots ? (
@@ -107,12 +127,13 @@ export default function BookingCalendar() {
               selectedIndex={selectedSlot}
               onSelect={handleSlotSelect}
               date={selectedDate}
+               message={message}
             />
           )}
 
           <button
-            onClick={handlePayment}
-            className="w-full mt-6 bg-[#0b1743] text-white py-2 px-4 rounded-lg hover:bg-[#08102e] transition"
+            onClick={handleReservation}
+            className="w-full mt-6 bg-primary text-white py-2 px-4 rounded-lg hover:bg-[#08102e] transition"
             disabled={!selectedDate || selectedSlot === null}
           >
             Réserver

@@ -1,8 +1,8 @@
-export default function TimeSlotSelector({ slots = [], selectedIndex, onSelect }) {
+export default function TimeSlotSelector({ slots = [], selectedIndex, onSelect, message }) {
   return (
     <div className="flex flex-col gap-3">
       {slots.length === 0 ? (
-        <p className="text-sm text-gray-500">Aucun créneau disponible pour cette date.</p>
+        <p className="text-sm text-red-500">{message || "Aucun créneau disponible pour cette date."}</p>
       ) : (
         slots.map((slot, index) => {
           const isSelected = selectedIndex === index;
@@ -18,13 +18,13 @@ export default function TimeSlotSelector({ slots = [], selectedIndex, onSelect }
                     : "border-primary text-gray-800 hover:bg-blue-50"
                 }`}
             >
-              <span>{slot.start_time || slot.start}</span>
+              <span>{slot.debut || slot.start}</span>
               <div className="flex items-center">
                 <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-primary'}`} />
                 <span className="w-12 h-0.5 bg-gray-300" />
                 <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-primary'}`} />
               </div>
-              <span>{slot.end_time || slot.end}</span>
+              <span>{slot.fin || slot.end}</span>
             </button>
           );
         })

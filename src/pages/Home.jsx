@@ -14,9 +14,9 @@ export default function Home() {
     const loadServices = async () => {
       try {
         const data = await getServices();
-        setServices(data.services);
+        setServices(data.services || []);
       } catch (err) {
-        setError(err.message);
+        setError(err.message || "Erreur lors du chargement des services");
       } finally {
         setLoading(false);
       }
@@ -25,15 +25,12 @@ export default function Home() {
     loadServices();
   }, []);
 
-   const handleDiscoverClick = (serviceId) => {
+  const handleDiscoverClick = (serviceId) => {
     navigate(`/booking?service_id=${serviceId}`);
-    
-    // Alternative: Stocker le service sélectionné dans le state de navigation
-    // navigate('/booking', { state: { serviceId } });
   };
 
   if (loading) return <div className="flex justify-center items-center h-screen">Chargement...</div>;
-  if (error) return <div className="flex justify-center items-center h-screen text-red-500">Erreur: {error}</div>;
+  if (error) return <div className="flex justify-center items-center h-screen text-red-500">Erreur : {error}</div>;
 
   return (
     <div className="overflow-hidden bg-white min-h-screen flex items-center justify-center px-4 md:px-10">
@@ -61,19 +58,19 @@ export default function Home() {
                 key={service.id} 
                 className="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden h-96 flex flex-col justify-center space-y-5 transform transition-transform duration-300 hover:scale-105 hover:shadow-md"
               >
-                <h3 className="text-3xl font-bold text-[#0b1743] mb-2">{service.title}</h3>
-                <span className='text-[#6c7a93]'>🎙️ {service.subtitle}</span>
-                {/* <span className='text-[#6c7a93]'>{service.description.split('. ')[0]}.</span> */}
-                
+                <h3 className="text-3xl font-bold text-[#0b1743] mb-2">{service.nom}</h3>
+
                 <div className="flex items-start gap-2">
                   <div className="w-1 h-8 rounded-full bg-[#0b1743] mt-1"></div>
                   <p className="text-[#6c7a93] text-[12px]">
-                    {service.description}
+                    {service.description?.length > 100
+                      ? service.description.slice(0, 100) + "..."
+                      : service.description || "Aucune description fournie."}
                   </p>
                 </div>
 
                 <div
-                   onClick={() => handleDiscoverClick(service.id)}
+                  onClick={() => handleDiscoverClick(service.id)}
                   className="absolute bottom-0 left-0 w-[140px] h-16 bg-[#0053f0] rounded-t-full flex items-center justify-center gap-1 cursor-pointer transform transition-transform duration-300 hover:scale-125"
                 >
                   <span className="text-white font-medium text-sm">

@@ -72,9 +72,8 @@ export default function LoginWithMail() {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md transition ${
-                                isLoading ? 'opacity-70 cursor-not-allowed' : ''
-                            }`}
+                            className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md transition ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
+                                }`}
                         >
                             {isLoading ? 'Connexion en cours...' : 'Se connecter'}
                         </button>
@@ -85,8 +84,8 @@ export default function LoginWithMail() {
                             <span className="flex-1 h-px bg-gray-300"></span>
                         </div>
 
-                        <Link 
-                            to='/login-with-google' 
+                        <Link
+                            to='/login-with-google'
                             className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-md hover:bg-gray-50 transition text-gray-700 font-medium"
                         >
                             <FaGoogle className="text-lg" />
@@ -94,54 +93,56 @@ export default function LoginWithMail() {
                         </Link>
 
                         <p className="text-[10px] text-slate-500 mt-4 text-center">
-                            Votre studio vous attend 😉
+                        Je n'ai pas encore de compte? <Link to="/register-with-mail" className="text-blue-600 font-semibold">Créer</Link>
                         </p>
+                        
+                        
                     </form>
                 </div>
 
                 <div className="relative flex-1 p-6 md:p-0 w-full z-10 flex justify-center items-center">
-                        <div className="rounded-[40px] overflow-hidden  relative z-20 w-3/4">
-                            <img src={Images.pre} alt="Présentation" className="w-full object-cover" />
-                        </div>
-
-                    
-                        <motion.div
-                            className="hidden md:block absolute -left-20 top-[10%] w-80 h-80 bg-primary rounded-full z-10"
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{
-                                opacity: 0.7,
-                                scale: 1,
-                                x: [0, 20, 0],
-                                y: [0, 10, 0],
-                            }}
-                            whileHover={{ scale: 1.1, opacity: 1 }}
-                            transition={{
-                                opacity: { duration: 0.8, ease: 'easeOut' },
-                                scale: { duration: 0.8, ease: 'easeOut' },
-                                x: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-                                y: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-                            }}
-                        />
-
-                
-                        <motion.div
-                            className="hidden md:block absolute -right-20 bottom-0 w-80 h-80 bg-primary rounded-full z-10"
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{
-                                opacity: 0.7,
-                                scale: 1,
-                                x: [0, -20, 0],
-                                y: [0, -10, 0],
-                            }}
-                            whileHover={{ scale: 1.1, opacity: 1 }}
-                            transition={{
-                                opacity: { duration: 1, ease: 'easeOut' },
-                                scale: { duration: 1, ease: 'easeOut' },
-                                x: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
-                                y: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
-                            }}
-                        />
+                    <div className="rounded-[40px] overflow-hidden  relative z-20 w-3/4">
+                        <img src={Images.pre} alt="Présentation" className="w-full object-cover" />
                     </div>
+
+
+                    <motion.div
+                        className="hidden md:block absolute -left-20 top-[10%] w-80 h-80 bg-primary rounded-full z-10"
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{
+                            opacity: 0.7,
+                            scale: 1,
+                            x: [0, 20, 0],
+                            y: [0, 10, 0],
+                        }}
+                        whileHover={{ scale: 1.1, opacity: 1 }}
+                        transition={{
+                            opacity: { duration: 0.8, ease: 'easeOut' },
+                            scale: { duration: 0.8, ease: 'easeOut' },
+                            x: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+                            y: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                    />
+
+
+                    <motion.div
+                        className="hidden md:block absolute -right-20 bottom-0 w-80 h-80 bg-primary rounded-full z-10"
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{
+                            opacity: 0.7,
+                            scale: 1,
+                            x: [0, -20, 0],
+                            y: [0, -10, 0],
+                        }}
+                        whileHover={{ scale: 1.1, opacity: 1 }}
+                        transition={{
+                            opacity: { duration: 1, ease: 'easeOut' },
+                            scale: { duration: 1, ease: 'easeOut' },
+                            x: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
+                            y: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                    />
+                </div>
             </motion.div>
         </div>
     );
