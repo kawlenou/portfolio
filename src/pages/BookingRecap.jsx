@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AdditionalServices from "../components/ui/AdditionalServices";
-import { createBooking } from '../services';
+import { createBooking, redirectToCinetPay } from '../services';
 
 const BookingRecap = () => {
   const { state } = useLocation();
@@ -9,6 +9,7 @@ const BookingRecap = () => {
 
   const [loading, setLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [reservationId, setReservationId] = useState(0);
 
   if (!state) return <p className="text-center mt-10">Aucune donnée reçue.</p>;
 
@@ -28,35 +29,35 @@ const BookingRecap = () => {
     }).format(value);
   };
 
-const handleConfirmBooking = async () => {
-  setLoading(true);
-  try {
-    const formattedDateTime = `${date} ${heure.debut}`; // Ex: 2025-12-31 14:00
+  const handleConfirmBooking = async () => {
+    setLoading(true);
+    try {
+      const formattedDateTime = `${date} ${heure.debut}`;
 
-    const payload = {
-      service_id: service.id,
-      heure_id: selectedPackage.id,
-      date_reservation: formattedDateTime,
-      sous_services: selectedAdditionalServices.map(s => ({
-        id: s.id,
-        heure_id: selectedPackage.id, // Si même heure que le forfait
-      })),
-    };
+      const payload = {
+        service_id: service.id,
+        heure_id: selectedPackage.id,
+        date_reservation: formattedDateTime,
+        sous_services: selectedAdditionalServices.map(s => ({
+          id: s.id,
+          heure_id: selectedPackage.id,
+        })),
+      };
 
-    const result = await createBooking(payload);
-    console.log('Réservation réussie :', result);
+      const result = await createBooking(payload);
+      setReservationId(result.reservation.id)
 
-    setSuccessModal(true);
-  } catch (error) {
-    alert("Erreur lors de la réservation");
-  } finally {
-    setLoading(false);
-  }
-};
+      setSuccessModal(true);
+    } catch (error) {
+      alert("Erreur lors de la réservation");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="max-w-3xl mx-auto p-6 rounded-xl shadow-sm space-y-8 relative">
- 
+
       <div>
         <h1 className="text-3xl font-bold text-gray-800">Récapitulatif de la réservation</h1>
         <p className="text-gray-500 mt-2">Vérifiez les détails avant de procéder au paiement.</p>
@@ -68,9 +69,9 @@ const handleConfirmBooking = async () => {
         <div className="flex-1 space-y-4">
           <h2 className="text-xl font-semibold text-gray-700">Forfait sélectionné</h2>
           <div className="relative rounded-xl p-6 bg-white shadow hover:shadow-lg transition">
-               <div className="absolute top-4 right-4 w-5 h-5 border-2 rounded-full flex items-center justify-center border-[#0053f0]">
+            <div className="absolute top-4 right-4 w-5 h-5 border-2 rounded-full flex items-center justify-center border-[#0053f0]">
               <div className="w-2 h-2 bg-[#0053f0] rounded-full"></div>
-              </div>
+            </div>
 
             <h3 className="text-xl font-semibold text-[#0b1743]">{selectedPackage?.duree} heure(s)</h3>
             <p className="text-sm text-[#6c7a93] mt-4">Durée de la session</p>
@@ -83,11 +84,11 @@ const handleConfirmBooking = async () => {
         {/* Créneau sélectionné */}
         <div className="flex-1 space-y-4">
           <h2 className="text-xl font-semibold text-gray-700">Créneau sélectionné</h2>
-          
+
           <div className="relative rounded-xl p-6 bg-white shadow hover:shadow-lg transition">
-              <div className="absolute top-4 right-4 w-5 h-5 border-2 rounded-full flex items-center justify-center border-[#0053f0]">
+            <div className="absolute top-4 right-4 w-5 h-5 border-2 rounded-full flex items-center justify-center border-[#0053f0]">
               <div className="w-2 h-2 bg-[#0053f0] rounded-full"></div>
-              </div>
+            </div>
             <div className="p-4 rounded-lg bg-blue-50 border border-blue-100">
               <p className="text-base font-medium text-[#0b1743]">{date}</p>
               <p className="text-sm text-gray-700 mt-1">{heure?.debut} — {heure?.fin}</p>
@@ -103,7 +104,7 @@ const handleConfirmBooking = async () => {
           <AdditionalServices
             services={selectedAdditionalServices}
             selectedServices={selectedAdditionalServices.map(s => s.id)}
-            onServiceToggle={() => {}}
+            onServiceToggle={() => { }}
             disabled
           />
         </div>
@@ -133,16 +134,20 @@ const handleConfirmBooking = async () => {
 
       {/* Modal succès */}
       {successModal && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-xl shadow-xl w-[90%] max-w-md text-center">
+        <div className="fixed top-0 left-0 w-full min-h-screen bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white p-10 rounded-2xl shadow-2xl w-[95%] max-w-lg text-center">
             <h2 className="text-2xl font-bold text-green-600 mb-4">Réservation réussie 🎉</h2>
             <p className="text-gray-600 mb-6">Votre réservation a bien été enregistrée.</p>
             <button
               className="bg-[#0053f0] hover:bg-[#003bb0] text-white px-6 py-2 rounded-lg"
-              onClick={() => {
+              onClick={async () => {
                 setSuccessModal(false);
-                alert("Redirection vers le paiement...");
-                // navigate('/paiement', { state: { id: response.data.id } }); // si tu veux aller plus loin
+                try {
+                  const result = await redirectToCinetPay(reservationId);
+                  window.location.href = result.url;
+                } catch (err) {
+                  alert("Erreur lors de la redirection vers le paiement.");
+                }
               }}
             >
               Payer maintenant

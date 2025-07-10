@@ -168,4 +168,14 @@ export const createBooking = async ({
   }
 };
 
+export const redirectToCinetPay = async (reservationId) => {
+  try {
+    const response = await api.post(`/reservation/${reservationId}/payment`);
+    return response.data; 
+  } catch (error) {
+    console.error('Erreur de redirection vers CinetPay :', error);
+    throw error;
+  }
+};
+
 export default api;
