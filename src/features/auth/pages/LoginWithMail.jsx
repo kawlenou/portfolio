@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import { Images } from '../../themes/image';
+import { Images } from '../../../themes/image';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../../services';
+import { login } from '../../../services';
 
 
 export default function LoginWithMail() {

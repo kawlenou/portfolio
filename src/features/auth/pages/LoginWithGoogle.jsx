@@ -1,6 +1,6 @@
 import { FaGoogle } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import { Images } from '../../themes/image';
+import { Images } from '../../../themes/image';
 import { Link } from 'react-router-dom';
 
 export default function LoginWithGoogle() {

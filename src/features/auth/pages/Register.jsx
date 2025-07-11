@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import { Images } from '../../themes/image';
+import { Images } from '../../../themes/image';
 import { Link, useNavigate } from 'react-router-dom';
-import { registerUser } from '../../services';
+import { registerUser } from '../../../services';
 
 export default function Register() {
   const [formData, setFormData] = useState({

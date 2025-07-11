@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import AdditionalServices from '../components/ui/AdditionalServices';
+import AdditionalServices from '../components/AdditionalServices';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getServiceWithDetails } from '../services';
+import { getServiceWithDetails } from '../../services';
 
 export default function Booking() {
     const navigate = useNavigate();

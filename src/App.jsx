@@ -1,26 +1,29 @@
 import { Route, Routes } from 'react-router-dom';
-import LoginWithGoogle from './pages/auth/LoginWithGoogle';
-import LoginWithMail from './pages/auth/LoginWithMail';
-import OtpVerify from './pages/auth/OtpVerify';
+import RouteProteger from './routes';
 import Home from './pages/Home';
-import Booking from './pages/Booking';
-import BookingCalendar from './pages/BookingCalendar';
-import RouteProteger from './Routes/index';
-import Register from './pages/auth/Register';
-import Dashboard from './pages/Dashboard'
-import BookingRecap from './pages/BookingRecap';
-
+import Booking from './features/booking/pages/Booking';
+import BookingCalendar from './features/booking/pages/BookingCalendar';
+import BookingRecap from './features/booking/pages/BookingRecap';
+import AuthRoutes from './routes/AuthRoutes';
+import DashboardRoutes from './routes/DashboardRoutes';
 
 function App() {
   return (
     <Routes>
-      {/* Routes publiques */}
-      <Route path="/login-with-google" element={<LoginWithGoogle />} />
-      <Route path="/login-with-mail" element={<LoginWithMail />} />
-      <Route path="/register-with-mail" element={<Register />} />
-      <Route path="/otp-verify" element={<OtpVerify />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      
+      {/* Routes d'authentification */}
+      <Route path="/auth/*" element={<AuthRoutes />} />
+
+      {/* Routes du dashboard */}
+      <Route 
+        path="/dashboard/*" 
+        element={
+          <RouteProteger>
+            <DashboardRoutes />
+          </RouteProteger>
+        } 
+      />
+
+      {/* Routes publiques protégées */}
       <Route
         path="/"
         element={
@@ -37,7 +40,6 @@ function App() {
           </RouteProteger>
         }
       />
-      
       <Route
         path="/booking-calendar"
         element={
@@ -46,7 +48,6 @@ function App() {
           </RouteProteger>
         }
       />
-
       <Route
         path="/booking-recap"
         element={
@@ -55,26 +56,7 @@ function App() {
           </RouteProteger>
         }
       />
-      
-      {/* <Route
-        path="/profil"
-        element={
-          <RouteProteger>
-            <Profil />
-          </RouteProteger>
-        }
-      />
-       */}
-      {/* Route admin avec vérification de rôle */}
-      {/* <Route
-        path="/admin"
-        element={
-          <RouteProteger rolesRequises={['admin']}>
-            <EspaceAdmin />
-          </RouteProteger>
-        }
-      /> */}
-      
+
       {/* Route 404 */}
       {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>

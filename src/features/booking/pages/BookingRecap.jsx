@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import AdditionalServices from "../components/ui/AdditionalServices";
-import { createBooking, redirectToCinetPay } from '../services';
+import AdditionalServices from "../components/AdditionalServices";
+import { createBooking, redirectToCinetPay } from '../../services';
 
 const BookingRecap = () => {
   const { state } = useLocation();

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Images } from '../../themes/image';
+import { Images } from '../../../themes/image';
 import { Link} from 'react-router-dom';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { confirmRegistration } from '../../services';
+import { confirmRegistration } from '../../../services';
 
 export default function OtpVerify() {
   const [searchParams] = useSearchParams();
