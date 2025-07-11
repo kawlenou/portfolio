@@ -3,7 +3,7 @@ import Calendar from '../components/Calendar';
 import { format } from 'date-fns';
 import TimeSlotSelector from '../components/TimeSlotSelector';
 import { motion } from 'framer-motion';
-import { getAvailableTimeSlots } from '../../services';
+import { getAvailableTimeSlots } from '../../../services';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function BookingCalendar() {
