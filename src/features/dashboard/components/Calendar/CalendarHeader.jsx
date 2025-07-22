@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 
 const CalendarHeader = ({ days, startDate }) => {
   return (
@@ -8,7 +9,7 @@ const CalendarHeader = ({ days, startDate }) => {
         <div 
           key={idx} 
           className={`h-16 flex flex-col items-center justify-center ${
-            d.label === startDate.format('D') ? 'bg-blue-50 text-blue-600' : 'bg-gray-50 text-gray-600'
+            d.date === startDate.format('YYYY-MM-DD') ? 'bg-blue-50 text-blue-600' : 'bg-gray-50 text-gray-600'
           } rounded-lg`}
         >
           <div className="text-lg font-bold">{d.label}</div>

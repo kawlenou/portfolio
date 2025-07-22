@@ -14,8 +14,8 @@ export default {
       },
 
       fontFamily: {
-        poppins: ['Poppins', 'sans-serif'],
-        polysans: ['PolySans', 'sans-serif'],
+        sans: ['Poppins', 'sans-serif'],
+        heading: ['PolySans', 'sans-serif'],
       },
     },
   },

@@ -19,7 +19,7 @@ export default function OtpVerify() {
 
   useEffect(() => {
     if (!email) {
-      navigate('/login-with-mail');
+      navigate('/auth/login-with-mail');
     }
   }, [email, navigate]);
 
@@ -60,7 +60,7 @@ export default function OtpVerify() {
     try {
       await confirmRegistration(email, verificationCode);
       setSuccess('Votre compte a été confirmé avec succès !');
-      setTimeout(() => navigate('/login-with-mail'), 2000);
+      setTimeout(() => navigate('/auth/login-with-mail'), 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur lors de la confirmation.');
     } finally {

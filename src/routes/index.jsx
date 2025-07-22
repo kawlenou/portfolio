@@ -1,43 +1,46 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import { getProfile } from '../services';
-import { verifyToken } from '../features/auth/utils/auth';
 
 export default function RouteProteger({ children, rolesRequises = [] }) {
   const location = useLocation();
   const [authStatus, setAuthStatus] = useState({
     loading: true,
     authorized: false,
-    tokenValid: false
+    tokenValid: false,
   });
 
-  // Mémoïsation de la fonction de vérification
-  const checkAuth = useCallback(async () => {
-    try {
-      const token = localStorage.getItem('authToken');
-      if (!token) throw new Error('Aucun token trouvé');
+const checkAuth = useCallback(async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) throw new Error('Aucun token trouvé');
 
-      const isTokenValid = await verifyToken(token);
-      if (!isTokenValid) throw new Error('Token invalide');
+    const response = await getProfile();
+    //console.log('Réponse profil complète :', response);
 
-      const response = await getProfile();
-      const hasRole = rolesRequises.length === 0 ||
-                     rolesRequises.includes(response.data.role);
+    const userRole = response?.data?.role || response?.role;
+    if (!userRole) throw new Error('Rôle non trouvé');
 
-      return {
-        loading: false,
-        authorized: hasRole,
-        tokenValid: true
-      };
-    } catch (error) {
-      localStorage.removeItem('authToken');
-      return {
-        loading: false,
-        authorized: false,
-        tokenValid: false
-      };
-    }
-  }, [rolesRequises]);
+    const hasRole = rolesRequises.includes(userRole);
+    console.log('Rôle utilisateur :', userRole);
+    //console.log('Autorisé ?', hasRole);
+
+    return {
+      loading: false,
+      authorized: hasRole,
+      tokenValid: true,
+    };
+  } catch (error) {
+    console.error('Erreur d’authentification:', error);
+    localStorage.removeItem('authToken');
+    return {
+      loading: false,
+      authorized: false,
+      tokenValid: false,
+    };
+  }
+}, [rolesRequises]);
+
 
   useEffect(() => {
     let isMounted = true;
@@ -54,7 +57,7 @@ export default function RouteProteger({ children, rolesRequises = [] }) {
     return () => {
       isMounted = false;
     };
-  }, [checkAuth]); // Seulement checkAuth comme dépendance
+  }, [checkAuth]);
 
   if (authStatus.loading) {
     return (
@@ -79,15 +82,13 @@ export default function RouteProteger({ children, rolesRequises = [] }) {
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           />
         </svg>
-        <p className="mt-4 text-sm text-gray-600">
-          Vérification en cours...
-        </p>
+        <p className="mt-4 text-sm text-gray-600">Vérification en cours...</p>
       </div>
     );
   }
 
   if (!authStatus.tokenValid || !authStatus.authorized) {
-    return <Navigate to="/login-with-mail" replace state={{ from: location }} />;
+    return <Navigate to="/auth/login-with-mail" replace state={{ from: location }} />;
   }
 
   return children;

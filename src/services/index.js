@@ -31,13 +31,25 @@ api.interceptors.response.use(response => {
   return Promise.reject(error);
 });
 
-/**
- * Connexion utilisateur
- * @param {string} email 
- * @param {string} password 
- * @returns {Promise<{user: object, token: string}>}
- */
+
 export const login = async (email, password) => {
+  try {
+    const response = await api.post("/login", { email, password });
+    if (response.data.access_token) {
+      localStorage.setItem('authToken', response.data.access_token);
+    }
+    
+    return response.data;
+  } catch (error) {
+    console.error("Erreur de connexion:", {
+      status: error.response?.status,
+      data: error.response?.data
+    });
+    throw error;
+  }
+};
+
+export const adminLogin = async (email, password) => {
   try {
     const response = await api.post("/login", { email, password });
     
@@ -177,5 +189,41 @@ export const redirectToCinetPay = async (reservationId) => {
     throw error;
   }
 };
+
+export const getReservations = async () => {
+  try {
+    const response = await api.get('/admin/reservation/all');
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des réservations:', error);
+    throw error;
+  }
+};
+
+export const addService = async (serviceData) => {
+  const response = await api.post('/admin/services', {
+      nom: serviceData.nom,
+      description: serviceData.description,
+      heures: serviceData.heures,
+    });
+  return response.data;
+};
+
+export const addAdditionalService = async (serviceData) => {
+  const response = await api.post('/admin/sous-services', {
+      nom: serviceData.nom,
+      description: serviceData.description,
+      heures: serviceData.heures,
+      services: serviceData.services
+    });
+  return response.data;
+};
+
+
+export const getHeures = async () => {
+  const response = await api.get('/heures');
+  return response.data;
+};
+
 
 export default api;

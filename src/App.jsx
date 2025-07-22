@@ -1,11 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
-import RouteProteger from './routes';
+import RouteProteger from './Routes/index.jsx';
 import Home from './pages/Home';
 import Booking from './features/booking/pages/Booking';
 import BookingCalendar from './features/booking/pages/BookingCalendar';
 import BookingRecap from './features/booking/pages/BookingRecap';
-import AuthRoutes from './routes/AuthRoutes';
-import DashboardRoutes from './routes/DashboardRoutes';
+import AuthRoutes from './Routes/AuthRoutes';
+import DashboardRoutes from './Routes/DashboardRoutes';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <Route 
         path="/dashboard/*" 
         element={
-          <RouteProteger>
+          <RouteProteger rolesRequises={['admin']}>
             <DashboardRoutes />
           </RouteProteger>
         } 
@@ -27,7 +28,7 @@ function App() {
       <Route
         path="/"
         element={
-          <RouteProteger>
+          <RouteProteger rolesRequises={['client']}>
             <Home />
           </RouteProteger>
         }
@@ -58,7 +59,7 @@ function App() {
       />
 
       {/* Route 404 */}
-      {/* <Route path="*" element={<NotFound />} /> */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

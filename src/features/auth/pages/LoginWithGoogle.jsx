@@ -35,7 +35,7 @@ export default function LoginWithGoogle() {
 
                         <div className="text-sm text-slate-500 mt-4">
                             <span className="text-slate-400">ou</span><br />
-                            <Link to="/login-with-mail" className="text-primary font-medium hover:underline">Continuez avec votre email.</Link>
+                            <Link to="/auth/login-with-mail" className="text-primary font-medium hover:underline">Continuez avec votre email.</Link>
                         </div>
                     </div>
 

@@ -34,7 +34,7 @@ export default function Register() {
       await registerUser(formData);
     //   navigate('/otp-verify', { state: { email: formData.email } });
 
-    navigate(`/otp-verify?email=${encodeURIComponent(formData.email)}`);
+    navigate(`/auth/otp-verify?email=${encodeURIComponent(formData.email)}`);
     } catch (err) {
       const msg = err?.errors
         ? Object.values(err.errors).flat().join(', ')
@@ -135,7 +135,7 @@ export default function Register() {
             </div>
 
             <Link 
-              to='/login-with-google' 
+              to='/auth/login-with-google' 
               className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-md hover:bg-gray-50 transition text-gray-700 font-medium"
             >
               <FaGoogle className="text-lg" />
@@ -143,7 +143,7 @@ export default function Register() {
             </Link>
 
             <p className="text-[10px] text-slate-500 mt-4 text-center">
-              Vous avez déjà un compte ? <Link to="/login-with-mail" className="text-blue-600 font-semibold">Connectez-vous</Link>
+              Vous avez déjà un compte ? <Link to="/auth/login-with-mail" className="text-blue-600 font-semibold">Connectez-vous</Link>
             </p>
           </form>
         </div>
