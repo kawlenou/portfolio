@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import RouteProteger from './Routes/index.jsx';
+import RouteProteger from './routes/index.jsx';
 import Home from './pages/Home';
 import Booking from './features/booking/pages/Booking';
 import BookingCalendar from './features/booking/pages/BookingCalendar';
 import BookingRecap from './features/booking/pages/BookingRecap';
-import AuthRoutes from './Routes/AuthRoutes';
-import DashboardRoutes from './Routes/DashboardRoutes';
+import AuthRoutes from './routes/AuthRoutes';
+import DashboardRoutes from './routes/DashboardRoutes';
 import NotFound from './pages/NotFound';
 
 function App() {
