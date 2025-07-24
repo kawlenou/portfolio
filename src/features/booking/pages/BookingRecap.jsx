@@ -22,6 +22,8 @@ const BookingRecap = () => {
     total
   } = state;
 
+
+
   const formatPrice = (value) => {
     return new Intl.NumberFormat('fr-FR', {
       minimumFractionDigits: 0,
@@ -29,10 +31,12 @@ const BookingRecap = () => {
     }).format(value);
   };
 
+
   const handleConfirmBooking = async () => {
     setLoading(true);
     try {
       const formattedDateTime = `${date} ${heure.debut}`;
+
 
       const payload = {
         service_id: service.id,
@@ -40,9 +44,10 @@ const BookingRecap = () => {
         date_reservation: formattedDateTime,
         sous_services: selectedAdditionalServices.map(s => ({
           id: s.id,
-          heure_id: selectedPackage.id,
+          heure_id: s.heures[0].id,
         })),
       };
+
 
       const result = await createBooking(payload);
       setReservationId(result.reservation.id)
@@ -54,6 +59,8 @@ const BookingRecap = () => {
       setLoading(false);
     }
   };
+
+
 
   return (
     <div className="max-w-3xl mx-auto p-6 rounded-xl shadow-sm space-y-8 relative">

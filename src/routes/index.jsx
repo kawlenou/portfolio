@@ -22,8 +22,8 @@ const checkAuth = useCallback(async () => {
     if (!userRole) throw new Error('Rôle non trouvé');
 
     const hasRole = rolesRequises.includes(userRole);
-    console.log('Rôle utilisateur :', userRole);
-    //console.log('Autorisé ?', hasRole);
+    //console.log('Rôle utilisateur :', userRole);
+  
 
     return {
       loading: false,
@@ -31,7 +31,7 @@ const checkAuth = useCallback(async () => {
       tokenValid: true,
     };
   } catch (error) {
-    console.error('Erreur d’authentification:', error);
+    //console.error('Erreur d’authentification:', error);
     localStorage.removeItem('authToken');
     return {
       loading: false,

@@ -12,7 +12,7 @@ export default function BookingCalendar() {
   const [slots, setSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [message, setMessage] = useState('');
-  const [heure_id, setHeureId] = useState(1); 
+  const [heure_id, setHeureId] = useState();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,33 +34,35 @@ export default function BookingCalendar() {
   };
 
   const handleReservation = () => {
-  if (selectedDate && selectedSlot !== null) {
-    const slot = slots[selectedSlot];
-    const reservation = {
-      service,
-      selectedPackage,
-      selectedAdditionalServices,
-      total,
-      date: format(selectedDate, 'yyyy-MM-dd'),
-      heure: {
-        debut: slot.debut,
-        fin: slot.fin
-      }
-    };
+    if (selectedDate && selectedSlot !== null) {
+      const slot = slots[selectedSlot];
+      const reservation = {
+        service,
+        selectedPackage,
+        selectedAdditionalServices,
+        total,
+        date: format(selectedDate, 'yyyy-MM-dd'),
+        heure: {
+          debut: slot.debut,
+          fin: slot.fin
+        }
+      };
 
-    navigate('/booking-recap', { state: reservation });
-  } else {
-    alert("Veuillez sélectionner une date et un créneau horaire");
-  }
-};
+      navigate('/booking-recap', { state: reservation });
+    } else {
+      alert("Veuillez sélectionner une date et un créneau horaire");
+    }
+  };
 
 
   useEffect(() => {
     if (!service || !selectedPackage) {
-    navigate('/booking'); 
-  }
+
+      navigate('/booking');
+    }
 
     const loadSlots = async () => {
+      setHeureId(selectedPackage.id)
       if (!selectedDate) return;
 
       setLoadingSlots(true);
@@ -75,15 +77,15 @@ export default function BookingCalendar() {
         setLoadingSlots(false);
       }
 
-      
+
     };
 
     loadSlots();
 
-    
+
   }, [selectedDate, heure_id, service, selectedPackage]);
 
-  
+
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
@@ -122,13 +124,15 @@ export default function BookingCalendar() {
           {loadingSlots ? (
             <p>Chargement des créneaux...</p>
           ) : (
-            <TimeSlotSelector
-              slots={slots}
-              selectedIndex={selectedSlot}
-              onSelect={handleSlotSelect}
-              date={selectedDate}
-               message={message}
-            />
+            <div className="max-h-96 overflow-auto">
+              <TimeSlotSelector
+                slots={slots}
+                selectedIndex={selectedSlot}
+                onSelect={handleSlotSelect}
+                date={selectedDate}
+                message={message}
+              />
+            </div>
           )}
 
           <button
@@ -139,6 +143,7 @@ export default function BookingCalendar() {
             Réserver
           </button>
         </div>
+
       </motion.div>
     </div>
   );

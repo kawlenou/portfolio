@@ -36,7 +36,7 @@ function App() {
       <Route
         path="/booking"
         element={
-          <RouteProteger>
+           <RouteProteger rolesRequises={['client']}>
             <Booking />
           </RouteProteger>
         }
@@ -44,7 +44,7 @@ function App() {
       <Route
         path="/booking-calendar"
         element={
-          <RouteProteger>
+           <RouteProteger rolesRequises={['client']}>
             <BookingCalendar />
           </RouteProteger>
         }
@@ -52,7 +52,7 @@ function App() {
       <Route
         path="/booking-recap"
         element={
-          <RouteProteger>
+           <RouteProteger rolesRequises={['client']}>
             <BookingRecap />
           </RouteProteger>
         }

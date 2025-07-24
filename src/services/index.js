@@ -11,7 +11,7 @@ const api = axios.create({
 
 // Intercepteur pour injecter le token
 api.interceptors.request.use(config => {
-  const token = localStorage.getItem('authToken'); // À utiliser partout le même nom
+  const token = localStorage.getItem('authToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -67,10 +67,7 @@ export const adminLogin = async (email, password) => {
   }
 };
 
-/**
- * Récupère le profil utilisateur
- * @returns {Promise<object>}
- */
+
 export const getProfile = async () => {
   try {
     const response = await api.get('/user');
@@ -110,10 +107,7 @@ export const confirmRegistration = async (email, verificationCode) => {
   return response.data;
 };
 
-/**
- * Déconnexion
- * @returns {Promise<void>}
- */
+
 export const logout = async () => {
   try {
     await api.post('/logout');
@@ -129,7 +123,7 @@ export const getServices = async () => {
     return response.data;
   
   } catch (error) {
-    console.error('Erreur lors de la récupération des services:', error);
+    //console.error('Erreur lors de la récupération des services:', error);
     throw error;
   }
 };
@@ -137,10 +131,10 @@ export const getServices = async () => {
 export const getServiceWithDetails = async (id) => {
   try {
     const response = await api.get(`/user/services/${id}`);
-    console.log(response.data)
+    //console.log(response.data)
     return response.data;
   } catch (error) {
-    console.error(`Erreur lors de la récupération du service ${id}:`, error);
+    //console.error(`Erreur lors de la récupération du service ${id}:`, error);
     throw error;
   }
 };

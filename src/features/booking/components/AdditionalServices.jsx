@@ -1,11 +1,14 @@
 import React from 'react';
 
 const AdditionalServices = ({ services, selectedServices, onServiceToggle }) => {
+
   return (
     <div className='flex flex-wrap gap-3'>
+      
       {services.map((service) => {
         const isSelected = selectedServices.includes(service.id);
-        const price = service?.pivot?.prix || 0;
+        const price = service?.heures[0]?.pivot?.prix
+  
 
         return (
           <div 

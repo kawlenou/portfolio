@@ -49,13 +49,13 @@ export default function Calendar({ selectedDate, onDateChange }) {
         </button>
       </div>
 
-      <div className="grid grid-cols-7 text-center text-sm text-gray-600 font-medium mb-2">
+      <div className="grid grid-cols-7 text-center text-md text-gray-600 font-bold mb-6">
         {daysOfWeek.map((day) => (
           <div key={day}>{day}</div>
         ))}
       </div>
 
-      <div className="grid grid-cols-7 text-center gap-y-2 text-sm">
+      <div className="grid grid-cols-7 text-center gap-y-6 text-sm">
         {generateDays().map((day, index) => {
           const isSelected = selectedDate && isSameDay(day, selectedDate);
           const isDisabled = [16, 17, 18].includes(day.getDate()) && isSameMonth(day, currentDate);

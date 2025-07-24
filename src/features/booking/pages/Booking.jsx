@@ -32,6 +32,7 @@ export default function Booking() {
         const loadServiceDetails = async () => {
             try {
                 const data = await getServiceWithDetails(serviceId);
+                console.log(data)
                 setServiceDetails(data.service);
 
                 if (data.service.heures?.length > 0) {
@@ -52,7 +53,7 @@ export default function Booking() {
     const total = selectedPackage
         ? Number(selectedPackage.pivot.prix) + selectedServices.reduce((sum, serviceId) => {
             const service = serviceDetails?.sous_services?.find(s => s.id === serviceId);
-            return sum + Number(service?.pivot?.prix || 0);
+            return sum + Number(service?.heures[0]?.pivot?.prix || 0);
         }, 0)
         : 0;
 
@@ -158,7 +159,7 @@ export default function Booking() {
                                                 return service ? (
                                                     <li key={serviceId} className="flex justify-between">
                                                         <span>{service.nom}</span>
-                                                        <span>{formatPrice(service.pivot?.prix || 0)} fcfa</span>
+                                                        <span>{formatPrice(service?.heures[0]?.pivot?.prix || 0)} fcfa</span>
                                                     </li>
                                                 ) : null;
                                             })}
