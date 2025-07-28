@@ -3,6 +3,7 @@ import AdditionalServices from '../components/AdditionalServices';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getServiceWithDetails } from '../../../services';
+import { FiArrowLeft } from 'react-icons/fi'; 
 
 export default function Booking() {
     const navigate = useNavigate();
@@ -32,7 +33,6 @@ export default function Booking() {
         const loadServiceDetails = async () => {
             try {
                 const data = await getServiceWithDetails(serviceId);
-                console.log(data)
                 setServiceDetails(data.service);
 
                 if (data.service.heures?.length > 0) {
@@ -72,7 +72,7 @@ export default function Booking() {
                 service: serviceDetails,
                 selectedPackage,
                 selectedAdditionalServices: selectedServices.map(id =>
-                serviceDetails.sous_services.find(s => s.id === id)
+                    serviceDetails.sous_services.find(s => s.id === id)
                 ),
                 total
             }
@@ -80,16 +80,27 @@ export default function Booking() {
     };
 
     if (loading) return <div className="flex justify-center items-center h-screen">Chargement...</div>;
-    if (error) return <div className="flex justify-center items-center h-screen text-red-500">Erreur: {error}</div>;
+    if (error) return <div className="flex justify-center items-center h-screen text-red-500">Erreur : {error}</div>;
     if (!serviceDetails) return <div className="flex justify-center items-center h-screen">Service non trouvé</div>;
 
     return (
-        <div className="overflow-hidden bg-white min-h-screen flex items-center justify-center px-4 md:px-10">
+        <div className="relative overflow-hidden bg-gray-50 min-h-screen flex flex-col items-center justify-center px-4 md:px-10">
+            {/* Bouton de retour */}
+            <div className="w-full max-w-6xl mt-6 mb-4 self-start">
+                <button
+                    onClick={() => navigate(-1)}
+                    className="flex items-center text-[#0b1743] hover:text-[#0053f0] transition"
+                >
+                    <FiArrowLeft className="mr-2 text-xl" />
+                    <span className="text-sm font-medium">Retour</span>
+                </button>
+            </div>
+
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="flex flex-col w-full max-w-6xl"
+                className="w-full max-w-6xl flex flex-col bg-white rounded-3xl md:p-20 p-6 shadow"
             >
                 <form onSubmit={handleSubmit}>
                     <div className="mb-10">
@@ -101,6 +112,7 @@ export default function Booking() {
                     </div>
 
                     <div className="md:flex md:gap-8">
+                        {/* Liste des forfaits */}
                         <div className="flex-1">
                             <h3 className="text-xl font-semibold text-[#0b1743] mb-6">Forfaits disponibles</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -122,6 +134,7 @@ export default function Booking() {
                                 ))}
                             </div>
 
+                            {/* Services additionnels */}
                             {serviceDetails.sous_services?.length > 0 && (
                                 <div className="mt-12">
                                     <h4 className="text-3xl font-bold text-[#0b1743]">Ajoutez des services complémentaires</h4>
@@ -135,6 +148,7 @@ export default function Booking() {
                             )}
                         </div>
 
+                        {/* Résumé et total */}
                         <div className="md:w-96 mt-10 md:mt-0">
                             <div className="bg-white rounded-xl p-6 shadow-md sticky top-6">
                                 <h4 className="text-3xl font-bold text-[#0b1743]">Votre réservation</h4>

@@ -5,6 +5,7 @@ import TimeSlotSelector from '../components/TimeSlotSelector';
 import { motion } from 'framer-motion';
 import { getAvailableTimeSlots } from '../../../services';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi'; 
 
 export default function BookingCalendar() {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -54,15 +55,13 @@ export default function BookingCalendar() {
     }
   };
 
-
   useEffect(() => {
     if (!service || !selectedPackage) {
-
       navigate('/booking');
     }
 
     const loadSlots = async () => {
-      setHeureId(selectedPackage.id)
+      setHeureId(selectedPackage.id);
       if (!selectedDate) return;
 
       setLoadingSlots(true);
@@ -76,24 +75,29 @@ export default function BookingCalendar() {
       } finally {
         setLoadingSlots(false);
       }
-
-
     };
 
     loadSlots();
-
-
   }, [selectedDate, heure_id, service, selectedPackage]);
 
-
-
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 px-4 py-10">
+     
+      <div className="max-w-6xl mx-auto mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center text-[#0b1743] hover:text-[#0053f0] transition"
+        >
+          <FiArrowLeft className="mr-2 text-xl" />
+          <span className="text-sm font-medium">Retour</span>
+        </button>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="flex flex-col-reverse md:flex-row gap-12 w-full max-w-6xl p-6 md:p-10"
+        className="flex flex-col-reverse md:flex-row gap-12 bg-white max-w-6xl mx-auto rounded-3xl md:p-20 p-10"
       >
         {/* Calendrier */}
         <div className="flex-1">
@@ -137,13 +141,12 @@ export default function BookingCalendar() {
 
           <button
             onClick={handleReservation}
-            className="w-full mt-6 bg-primary text-white py-2 px-4 rounded-lg hover:bg-[#08102e] transition"
+            className="w-full mt-6 bg-[#0053f0] text-white py-2 px-4 rounded-lg hover:bg-[#08102e] transition"
             disabled={!selectedDate || selectedSlot === null}
           >
             Réserver
           </button>
         </div>
-
       </motion.div>
     </div>
   );

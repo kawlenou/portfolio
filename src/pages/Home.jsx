@@ -3,6 +3,7 @@ import { GoArrowRight } from "react-icons/go";
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { getServices } from '../services';
+import Header from '../components/Header';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -33,12 +34,13 @@ export default function Home() {
   if (error) return <div className="flex justify-center items-center h-screen text-red-500">Erreur : {error}</div>;
 
   return (
-    <div className="overflow-hidden bg-white min-h-screen flex items-center justify-center px-4 md:px-10">
+    <div className="overflow-hidden bg-white min-h-screen">
+      
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: 'easeOut' }}
-        className="flex flex-col-reverse md:flex-row items-center max-w-6xl w-full"
+        className="flex flex-col-reverse md:flex-row items-center  bg-gray-50 md:m-20 rounded-3xl md:p-20 p-10"
       >
         <div className="max-w-6xl mx-auto">
           <div className="md:flex md:justify-between md:items-start">
@@ -56,7 +58,7 @@ export default function Home() {
             {services.map((service) => (
               <div 
                 key={service.id} 
-                className="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden h-96 flex flex-col justify-center space-y-5 transform transition-transform duration-300 hover:scale-105 hover:shadow-md"
+                className="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden pb-20 flex flex-col justify-center space-y-5 transform transition-transform duration-300 hover:scale-105 hover:shadow-md"
               >
                 <h3 className="text-3xl font-bold text-[#0b1743] mb-2">{service.nom}</h3>
 
