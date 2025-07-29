@@ -115,9 +115,9 @@ const Index = () => {
                             to="https://wa.me/22897463339"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-full overflow-hidden transition-all duration-300 group w-12 hover:w-56"
+                            className="flex items-center bg-red-500 hover:bg-red-600 text-white px-3 py-3 rounded-full overflow-hidden transition-all duration-300 group w-12 hover:w-56"
                         >
-                            <BsWhatsapp className="w-5 h-5 shrink-0" />
+                            <BsWhatsapp className="w-6 h-6 shrink-0" />
                             <span className="ml-2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm">
                                 Discutons sur WhatsApp
                             </span>
@@ -137,8 +137,8 @@ const Index = () => {
                                 key={tag}
                                 onClick={() => setSelectedTag(tag)}
                                 className={`px-4 py-2 rounded-full border text-sm transition ${selectedTag === tag
-                                        ? "bg-red-500 text-white border-red-500"
-                                        : "border-white/20 text-white hover:bg-red-500 hover:border-red-500"
+                                    ? "bg-red-500 text-white border-red-500"
+                                    : "border-white/20 text-white hover:bg-red-500 hover:border-red-500"
                                     }`}
                             >
                                 {tag}
