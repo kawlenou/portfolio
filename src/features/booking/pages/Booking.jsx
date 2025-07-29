@@ -181,6 +181,8 @@ export default function Booking() {
                                     </div>
                                 )}
 
+
+
                                 <div className="border-t pt-3 font-bold text-lg flex justify-between">
                                     <span>Total</span>
                                     <span>{formatPrice(total)} fcfa</span>
