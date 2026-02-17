@@ -1,3 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --bg-0: #0a1030;
+  --bg-1: #10183d;
+  --bg-2: #1a2657;
+  --line: rgba(125, 152, 225, 0.06);
+  --card: rgba(20, 30, 72, 0.75);
+  --card-soft: rgba(41, 56, 110, 0.45);
+  --text: #f2f6ff;
+  --muted: #a9b9e6;
+  --primary: #7aa4ee;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg-0);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #a8c2ff;
+  outline-offset: 3px;
+}
+
+.portfolio-bg {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(122, 164, 238, 0.22), transparent 35%),
+    radial-gradient(circle at 85% 75%, rgba(90, 111, 201, 0.2), transparent 40%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-0));
+  position: relative;
+  overflow: hidden;
+}
+
+.portfolio-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent 110px,
+    var(--line) 111px,
+    var(--line) 112px
+  );
+  pointer-events: none;
+}
+
+.glass-panel {
+  background: var(--card);
+  border: 1px solid rgba(139, 169, 237, 0.28);
+  backdrop-filter: blur(8px);
+}
+
+.soft-panel {
+  background: var(--card-soft);
+  border: 1px solid rgba(139, 169, 237, 0.22);
+}
+
+.title-mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.section-anchor {
+  scroll-margin-top: 100px;
+}
+

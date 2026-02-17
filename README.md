@@ -1,12 +1,50 @@
-# React + Vite
+# Portfolio - React + Vite + Laravel
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ce depot contient:
+- `src/`: frontend portfolio (React + Vite + Tailwind)
+- `backend/`: backend Laravel (base API / socle serveur)
 
-Currently, two official plugins are available:
+## Frontend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Installation
+```bash
+npm install
+```
 
-## Expanding the ESLint configuration
+### Developpement
+```bash
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Qualite / build
+```bash
+npm run lint
+npm run build
+```
+
+## Auth dashboard (mode local)
+Le dashboard frontend utilise un service local mocke dans `src/services/index.js`.
+- Connexion admin: utiliser un email contenant `admin` (ex: `admin@demo.com`)
+- Mot de passe: au moins 4 caracteres
+
+Le token/profil/services sont stockes dans `localStorage`.
+
+## Backend Laravel
+
+### Installation
+```bash
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+```
+
+### Lancer les tests
+```bash
+php artisan test
+```
+
+## Etat actuel
+- Lint frontend: OK
+- Build frontend: OK
+- Tests backend: OK
